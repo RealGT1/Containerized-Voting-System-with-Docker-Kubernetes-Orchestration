@@ -1,82 +1,26 @@
-Example Voting App
+Containerized Voting System with Docker & Kubernetes Orchestration
 =========
 
 A simple distributed application running across multiple Docker containers.
 
-Getting started
----------------
+## Docker Integration
 
-Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. [Docker Compose](https://docs.docker.com/compose) will be automatically installed. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/). 
-
-
-## Linux Containers
-
-The Linux stack uses Python, Node.js, .NET Core (or optionally Java), with Redis for messaging and Postgres for storage.
-
-> If you're using [Docker Desktop on Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows), you can run the Linux version by [switching to Linux containers](https://docs.docker.com/docker-for-windows/#switch-between-windows-and-linux-containers), or run the Windows containers version.
-
-Run in this directory:
-```
-docker-compose up
-```
-The app will be running at [http://localhost:5000](http://localhost:5000), and the results will be at [http://localhost:5001](http://localhost:5001).
-
-Alternately, if you want to run it on a [Docker Swarm](https://docs.docker.com/engine/swarm/), first make sure you have a swarm. If you don't, run:
-```
-docker swarm init
-```
-Once you have your swarm, in this directory run:
-```
-docker stack deploy --compose-file docker-stack.yml vote
-```
-
-## Windows Containers
-
-An alternative version of the app uses Windows containers based on Nano Server. This stack runs on .NET Core, using [NATS](https://nats.io) for messaging and [TiDB](https://github.com/pingcap/tidb) for storage.
-
-You can build from source using:
-
-```
-docker-compose -f docker-compose-windows.yml build
-```
-
-Then run the app using:
-
-```
-docker-compose -f docker-compose-windows.yml up -d
-```
-
-> Or in a Windows swarm, run `docker stack deploy -c docker-stack-windows.yml vote`
-
-The app will be running at [http://localhost:5000](http://localhost:5000), and the results will be at [http://localhost:5001](http://localhost:5001).
+Pulled and utilized pre-built Docker images from Docker Hub to implement a fully functional voting system, integrating multiple microservices.
 
 
-Run the app in Kubernetes
--------------------------
+## Kubernetes Deployment
 
-The folder k8s-specifications contains the yaml specifications of the Voting App's services.
+Created YAML configuration files for Kubernetes, defining deployments and services for each microservice including the Voting App, Redis (for caching), Worker (for background task processing), Database (for persistence), and Result App (for displaying voting results).
 
-First create the vote namespace
 
-```
-$ kubectl create namespace vote
-```
+## Container Orchestration
 
-Run the following command to create the deployments and services objects:
-```
-$ kubectl create -f k8s-specifications/
-deployment "db" created
-service "db" created
-deployment "redis" created
-service "redis" created
-deployment "result" created
-service "result" created
-deployment "vote" created
-service "vote" created
-deployment "worker" created
-```
+Managed inter-service communication and ensured proper scaling and service exposure through Kubernetes services, enabling seamless orchestration of containers.
 
-The vote interface is then available on port 31000 on each host of the cluster, the result one is available on port 31001.
+## Hands-on Kubernetes Features
+
+Explored deployment scaling, auto-restarting failed containers, and load balancing traffic to ensure high availability and scalability of the voting system.
+
 
 Architecture
 -----
@@ -89,8 +33,9 @@ Architecture
 * A [Postgres](https://hub.docker.com/_/postgres/) or [TiDB](https://hub.docker.com/r/dockersamples/tidb/tags/) database backed by a Docker volume
 * A [Node.js](/result) or [ASP.NET Core SignalR](/result/dotnet) webapp which shows the results of the voting in real time
 
+Pods & Services
+-----
 
-Note
-----
+![Architecture diagram](pods,svc.png)
 
-The voting application only accepts one vote per client. It does not register votes if a vote has already been submitted from a client.
+
