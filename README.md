@@ -33,9 +33,14 @@ Architecture
 * A [Postgres](https://hub.docker.com/_/postgres/) or [TiDB](https://hub.docker.com/r/dockersamples/tidb/tags/) database backed by a Docker volume
 * A [Node.js](/result) or [ASP.NET Core SignalR](/result/dotnet) webapp which shows the results of the voting in real time
 
+Dataflow Diagram
+-----
+
+![Dataflow diagram](images/Dataflow.png)
+
 Pods & Services
 -----
 
-![Architecture diagram](pods,svc.png)
+![All Pods diagram](images/pods,svc.png)
 
 
